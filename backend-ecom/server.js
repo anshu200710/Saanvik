@@ -21,3 +21,6 @@ app.get("/", (req, res) => {
 app.listen(process.env.PORT || 5000, () => {
   console.log(`Server running on port http://localhost:${process.env.PORT || 5000}`);
 });
+
+
+export default app;
