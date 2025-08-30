@@ -1,11 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
+import { PlusCircle, Upload } from "lucide-react";
 
 const AddProduct = () => {
   const [form, setForm] = useState({ name: "", price: "", description: "" });
   const [image, setImage] = useState(null);
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,55 +18,106 @@ const AddProduct = () => {
       formData.append("description", form.description);
       formData.append("image", image);
 
-      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/products`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/products`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
-      alert("Product Added!");
+      alert("✅ Product Added!");
       setForm({ name: "", price: "", description: "" });
       setImage(null);
     } catch (err) {
-      alert("Error: " + (err.response?.data?.message || err.message));
+      alert("❌ Error: " + (err.response?.data?.message || err.message));
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
-      <input
-        name="name"
-        value={form.name}
-        onChange={handleChange}
-        placeholder="Name"
-        className="w-full border p-2 rounded"
-      />
-      <input
-        name="price"
-        value={form.price}
-        onChange={handleChange}
-        placeholder="Price"
-        type="number"
-        className="w-full border p-2 rounded"
-      />
-      <textarea
-        name="description"
-        value={form.description}
-        onChange={handleChange}
-        placeholder="Description"
-        className="w-full border p-2 rounded"
-      />
+    <div className="flex justify-center items-center py-10 px-4">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 space-y-5 border border-gray-100"
+      >
+        <h2 className="text-2xl font-semibold text-gray-800 flex items-center gap-2">
+          <PlusCircle className="w-6 h-6 text-blue-500" />
+          Add New Product
+        </h2>
 
-      {/* File Input */}
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => setImage(e.target.files[0])}
-        className="w-full border p-2 rounded"
-      />
+        {/* Name */}
+        <div>
+          <label className="block text-sm font-medium text-gray-600 mb-1">
+            Product Name
+          </label>
+          <input
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            placeholder="Enter product name"
+            className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
 
-      <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-        Add Product
-      </button>
-    </form>
+        {/* Price */}
+        <div>
+          <label className="block text-sm font-medium text-gray-600 mb-1">
+            Price
+          </label>
+          <input
+            name="price"
+            value={form.price}
+            onChange={handleChange}
+            placeholder="Enter price"
+            type="number"
+            className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
+
+        {/* Description */}
+        <div>
+          <label className="block text-sm font-medium text-gray-600 mb-1">
+            Description
+          </label>
+          <textarea
+            name="description"
+            value={form.description}
+            onChange={handleChange}
+            placeholder="Write a short description..."
+            rows="3"
+            className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
+
+        {/* File Input */}
+        <div>
+          <label className="block text-sm font-medium text-gray-600 mb-2">
+            Product Image
+          </label>
+          <label className="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 transition">
+            <Upload className="w-6 h-6 text-gray-500" />
+            <span className="text-gray-500 text-sm mt-1">
+              {image ? image.name : "Click to upload"}
+            </span>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setImage(e.target.files[0])}
+              className="hidden"
+            />
+          </label>
+        </div>
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 rounded-lg transition flex items-center justify-center gap-2"
+        >
+          <PlusCircle className="w-5 h-5" />
+          Add Product
+        </button>
+      </form>
+    </div>
   );
 };
 

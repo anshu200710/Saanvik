@@ -1,3 +1,4 @@
+import CategoryCarousel from "../components/CategoryCarousel";
 import Hero from "../components/Hero";
 import ProductsList from "../components/ProductList";
 import Testimonials from "../components/Testimonials";
@@ -7,6 +8,7 @@ const Home = () => {
     <div className="">
       <Hero />
       <ProductsList />
+      <CategoryCarousel/>
       <Testimonials />
     </div>
   );
