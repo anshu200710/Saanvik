@@ -18,9 +18,9 @@ app.get("/", (req, res) => {
   res.send("API is working...");
 });
 
-app.listen(process.env.PORT || 5000, () => {
-  console.log(`Server running on port http://localhost:${process.env.PORT || 5000}`);
-});
+// app.listen(process.env.PORT || 5000, () => {
+//   console.log(`Server running on port http://localhost:${process.env.PORT || 5000}`);
+// });
 
 
 export default app;
