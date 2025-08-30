@@ -1,10 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
-import { PlusCircle, Upload } from "lucide-react";
+import { PlusCircle, Upload, Image as ImageIcon } from "lucide-react";
 
 const AddProduct = () => {
   const [form, setForm] = useState({ name: "", price: "", description: "" });
   const [image, setImage] = useState(null);
+  const [dragActive, setDragActive] = useState(false);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -31,6 +32,14 @@ const AddProduct = () => {
       setImage(null);
     } catch (err) {
       alert("❌ Error: " + (err.response?.data?.message || err.message));
+    }
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      setImage(e.dataTransfer.files[0]);
     }
   };
 
@@ -89,23 +98,39 @@ const AddProduct = () => {
           />
         </div>
 
-        {/* File Input */}
-        <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">
-            Product Image
-          </label>
-          <label className="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 transition">
-            <Upload className="w-6 h-6 text-gray-500" />
-            <span className="text-gray-500 text-sm mt-1">
-              {image ? image.name : "Click to upload"}
-            </span>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setImage(e.target.files[0])}
-              className="hidden"
-            />
-          </label>
+        {/* File Input with Drag & Drop */}
+        <div
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragActive(true);
+          }}
+          onDragLeave={() => setDragActive(false)}
+          onDrop={handleDrop}
+          className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer transition ${
+            dragActive
+              ? "border-blue-400 bg-blue-50"
+              : "border-gray-300 hover:border-blue-400"
+          }`}
+        >
+          {image ? (
+            <div className="text-center">
+              <ImageIcon className="w-8 h-8 text-green-500 mx-auto" />
+              <p className="text-sm text-gray-700 mt-1">{image.name}</p>
+            </div>
+          ) : (
+            <>
+              <Upload className="w-6 h-6 text-gray-500" />
+              <p className="text-gray-500 text-sm mt-1">
+                Drag & Drop image here or <span className="text-blue-500">Click to upload</span>
+              </p>
+            </>
+          )}
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files[0])}
+            className="hidden"
+          />
         </div>
 
         {/* Submit Button */}
