@@ -9,6 +9,7 @@ import earphone1 from "./download (6).jpeg";
 import earphone2 from "./download (7).jpeg";
 import cover1 from "./download (8).jpeg";
 import cover2 from "./download (9).jpeg";
+import hero from './hero.jpg'
 
 // Export as assets object (if needed globally)
 export const assets = {
@@ -22,6 +23,7 @@ export const assets = {
   earphone2,
   cover1,
   cover2,
+  hero
 };
 
 // Products array
