@@ -98,14 +98,15 @@ const AddProduct = () => {
           />
         </div>
 
-        {/* File Input with Drag & Drop */}
-        <div
+        {/* File Input with Drag & Drop + Click to Upload */}
+        <label
           onDragOver={(e) => {
             e.preventDefault();
             setDragActive(true);
           }}
           onDragLeave={() => setDragActive(false)}
           onDrop={handleDrop}
+          htmlFor="file-upload"
           className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer transition ${
             dragActive
               ? "border-blue-400 bg-blue-50"
@@ -121,17 +122,19 @@ const AddProduct = () => {
             <>
               <Upload className="w-6 h-6 text-gray-500" />
               <p className="text-gray-500 text-sm mt-1">
-                Drag & Drop image here or <span className="text-blue-500">Click to upload</span>
+                Drag & Drop image here or{" "}
+                <span className="text-blue-500">Click to upload</span>
               </p>
             </>
           )}
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setImage(e.target.files[0])}
-            className="hidden"
-          />
-        </div>
+        </label>
+        <input
+          id="file-upload"
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImage(e.target.files[0])}
+          className="hidden"
+        />
 
         {/* Submit Button */}
         <button
